@@ -1,7 +1,7 @@
 // import { json } from 'msw/lib/types/context';
 import React from 'react';
 
-function Item({ item }) {
+function Item({ item, onUpdateItem }) {
   function handleAddToCartClick() {
     fetch(`http://localhost:4000/items/${item.id}`, {
       method: 'PATCH',
@@ -13,7 +13,15 @@ function Item({ item }) {
       }),
     })
       .then((r) => r.json())
-      .then((updatedItem) => console.log(updatedItem));
+      .then((updatedItem) => onUpdateItem(updatedItem));
+  }
+
+  function handleDeleteClick() {
+    fetch(`http://localhost:4000/items/${item.id}`, {
+      method: 'DELETE',
+    })
+      .then((r) => r.json())
+      .then(() => console.log('deleted'));
   }
 
   return (
@@ -28,7 +36,9 @@ function Item({ item }) {
         {item.isInCart ? 'Remove From' : 'Add to'} Cart
       </button>
 
-      <button className="remove">Delete</button>
+      <button onClick={handleDeleteClick} className="remove">
+        Delete
+      </button>
     </li>
   );
 }

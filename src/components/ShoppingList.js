@@ -13,6 +13,17 @@ useEffect(() =>{
   .then((items) => setItems(items));
 },[])
 
+
+function handleUpdateItem(updatedItem){
+  const updatedItems = items.map((item) => {
+    if(item.id === updatedItem.id){
+      return updatedItem;
+    }else{
+      return item;
+    }
+  })
+setItems(updatedItems);
+}
 function handleAddItem(newItem){
 setItems([...items,newItem])
 }
@@ -36,7 +47,8 @@ setItems([...items,newItem])
       />
       <ul className="Items">
         {itemsToDisplay.map((item) => (
-          <Item key={item.id} item={item} />
+          <Item key={item.id} item={item} 
+          onUpdateItems={handleUpdateItem}/>
         ))}
       </ul>
     </div>
